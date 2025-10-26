@@ -4,166 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BloxLink — Sign In</title>
-  <meta name="description" content="BloxLink demo sign-in — this is a frontend-only demo and does not submit credentials." />
-
-  <style>
-    :root{
-      --bg:#0f1724;        /* deep navy */
-      --card:#0b1220;      /* card background */
-      --accent:#6ee7b7;    /* mint-ish */
-      --muted:#94a3b8;     /* muted text */
-      --glass: rgba(255,255,255,0.04);
-      --radius:14px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:
-        radial-gradient(800px 400px at 10% 10%, rgba(110,231,183,0.06), transparent 8%),
-        linear-gradient(180deg, #071026 0%, #081229 60%, var(--bg) 100%);
-      color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
-    }
-
-    .container{
-      width:100%;
-      max-width:960px;
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:28px;
-      align-items:center;
-    }
-
-    .brand-panel{
-      padding:28px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: var(--radius);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
-      min-height:360px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-    .brand-top{
-      display:flex;
-      gap:16px;
-      align-items:center;
-    }
-    .logo {
-      width:66px;
-      height:66px;
-      border-radius:12px;
-      background: linear-gradient(135deg, #123a2b, #0d2a1f);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:800;
-      color:var(--accent);
-      font-family: "Orbitron", sans-serif;
-      letter-spacing:0.8px;
-      font-size:20px;
-      box-shadow: inset 0 -6px 20px rgba(0,0,0,0.35);
-    }
-    h1{margin:0;font-size:28px}
-    p.lead{color:var(--muted); margin-top:8px; margin-bottom:0; max-width:46ch}
-
-    .features{
-      margin-top:22px;
-      display:grid;
-      gap:12px;
-    }
-    .feature{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .dot{
-      width:38px;height:38px;border-radius:8px;background:var(--glass);display:grid;place-items:center;font-weight:700;color:var(--accent)
-    }
-    .feature p{margin:0;color:var(--muted);font-size:14px}
-
-    /* Card / form */
-    .card{
-      padding:28px;
-      border-radius:18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: 0 12px 40px rgba(2,6,23,0.65);
-      border:1px solid rgba(255,255,255,0.04);
-    }
-    form h2{margin:0 0 8px 0;font-size:20px}
-    .meta { color:var(--muted); font-size:13px; margin-bottom:18px;}
-
-    .field{
-      margin-bottom:14px;
-    }
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input[type="text"],
-    input[type="password"]{
-      width:100%;
-      padding:12px 14px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.04);
-      background: rgba(255,255,255,0.02);
-      color: #eaf6f0;
-      font-size:15px;
-      outline:none;
-      transition:box-shadow .15s, border-color .15s;
-    }
-    input:focus{
-      box-shadow: 0 6px 20px rgba(110,231,183,0.06);
-      border-color: rgba(110,231,183,0.35);
-    }
-
-    .actions{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-top:6px;
-    }
-    .btn{
-      padding:12px 18px;
-      border-radius:12px;
-      background:linear-gradient(90deg,var(--accent), #34d399);
-      color:#01221a;
-      border:none;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow: 0 8px 20px rgba(2,6,23,0.5);
-    }
-    .btn.secondary{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .note{
-      margin-top:14px;
-      font-size:13px;
-      color:#ffd6b3;
-      background: rgba(255,255,255,0.02);
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.02);
-    }
-    .demo-tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted);font-size:12px}
-
-    footer.small{margin-top:14px;color:var(--muted);font-size:12px}
-
-    /* Responsive */
-    @media (max-width:900px){
-      .container{grid-template-columns:1fr; padding:16px}
-      .brand-panel{order:2}
-      .card{order:1}
-    }
-  </style>
+  <meta name="description" content="BloxLink sign-in" />
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <main class="container" role="main" aria-labelledby="page-title">
@@ -172,7 +14,7 @@
         <div class="logo" aria-hidden="true">BL</div>
         <div>
           <h1 id="page-title">BloxLink</h1>
-          <p class="lead">Securely connect to BloxLink — demo frontend. Professional sign-in UI for prototypes and design systems.</p>
+          <p class="lead">Sign in to your BloxLink account.</p>
         </div>
       </div>
 
@@ -180,39 +22,38 @@
         <div class="feature">
           <div class="dot">✓</div>
           <div>
-            <p><strong>Clean design</strong> — modern, accessible layout suitable for desktop & mobile prototypes.</p>
+            <p><strong>Clean design</strong> — modern, accessible layout for desktop & mobile.</p>
           </div>
         </div>
         <div class="feature">
           <div class="dot">⚙</div>
           <div>
-            <p><strong>Responsive</strong> — stacks gracefully on smaller screens and keeps form focus clear.</p>
+            <p><strong>Responsive</strong> — stacks gracefully on smaller screens.</p>
           </div>
         </div>
         <div class="feature">
           <div class="dot">🔒</div>
           <div>
-            <p><strong>Demo-only</strong> — this page does not connect to any server and is safe for UI testing.</p>
+            <p><strong>Secure by design</strong> — integrate a secure backend for authentication.</p>
           </div>
         </div>
       </div>
 
       <footer class="small" aria-hidden="false">
-        BloxLink — Demo UI • Built for design & prototype use only.
+        BloxLink • Built for your site.
       </footer>
     </section>
 
     <aside class="card" aria-label="Sign in card">
-      <form id="demo-login" action="#" method="post" onsubmit="return onSubmitDemo(event)" novalidate>
+      <form id="login" action="/api/login" method="post" novalidate>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <h2>Sign in to BloxLink</h2>
-          <span class="demo-tag">DEMO</span>
         </div>
-        <p class="meta">Enter your username & password to preview the design. This is a frontend-only demo — credentials are not sent anywhere.</p>
+        <p class="meta">Enter your username and password to continue.</p>
 
         <div class="field">
           <label for="username">Username</label>
-          <input id="username" name="username" type="text" inputmode="text" autocomplete="username" placeholder="you@example.com" required aria-required="true" />
+          <input id="username" name="username" type="text" inputmode="email" autocomplete="username" placeholder="you@example.com" required aria-required="true" />
         </div>
 
         <div class="field">
@@ -222,11 +63,11 @@
 
         <div class="actions">
           <button type="submit" class="btn">Sign in</button>
-          <button type="button" class="btn secondary" onclick="onUseDemo()">Use demo account</button>
+          <button type="button" class="btn secondary" id="use-demo">Use demo account</button>
         </div>
 
         <div class="note" role="status" aria-live="polite" id="status-note">
-          This is a design/demo only. No credentials leave your browser.
+          Your credentials will be handled by your configured backend.
         </div>
 
         <div style="margin-top:12px;display:flex;gap:8px;justify-content:space-between;align-items:center">
@@ -238,45 +79,18 @@
   </main>
 
   <script>
-    // Client-side demo behavior only — NO SERVER SUBMISSION.
-    function onSubmitDemo(e){
-      e.preventDefault();
-      const u = document.getElementById('username').value.trim();
-      const p = document.getElementById('password').value;
-
-      // basic validation
-      if (!u){
-        showStatus('Please enter a username.');
-        document.getElementById('username').focus();
-        return false;
-      }
-      if (p.length < 6){
-        showStatus('Password must be at least 6 characters.');
-        document.getElementById('password').focus();
-        return false;
-      }
-
-      // Simulate a successful demo sign-in (no network request)
-      showStatus('Demo sign-in successful. (No credentials were transmitted.)');
-      // Optionally demonstrate navigation for prototype:
-      setTimeout(() => {
-        // This would be where a real app navigates after auth.
-        showStatus('Redirecting to demo dashboard…');
-      }, 900);
-
-      return false;
-    }
-
-    function onUseDemo(){
+    // Minimal client behavior; no credential persistence.
+    document.getElementById('use-demo').addEventListener('click', () => {
       document.getElementById('username').value = 'demo@bloxlink.test';
       document.getElementById('password').value = 'demopass';
-      showStatus('Demo credentials filled. Click "Sign in" to preview.');
-    }
+      document.getElementById('status-note').textContent = 'Demo credentials filled.';
+    });
 
-    function showStatus(msg){
-      const el = document.getElementById('status-note');
-      el.textContent = msg;
-    }
+    // Optional: show a short message after submit; server handles real auth.
+    document.getElementById('login').addEventListener('submit', (e) => {
+      // Let the browser post the form to /api/login; you can also use fetch later.
+      document.getElementById('status-note').textContent = 'Submitting...';
+    });
   </script>
 </body>
 </html>
