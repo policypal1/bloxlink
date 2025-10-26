@@ -4,362 +4,134 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GreenCut — Link Your Account</title>
-  <meta name="description" content="GreenCut — High-polish red theme login (simulation only, no network calls)." />
+  <meta name="description" content="GreenCut secure login (static demo)." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
   <style>
-    /* ======= Theme Tokens (Red) ======= */
-    :root{
-      --bg:#0b0507;
-      --bg-2:#14080c;
-      --card:#14090c;
-      --line:rgba(255,255,255,0.08);
-      --muted:#c9b3b6;
-      --text:#fff1f3;
-      --accent:#ff3b5c;      /* vivid red */
-      --accent-2:#ff6a7f;    /* lighter red for gradients */
+    :root {
+      --bg: #0b0507;
+      --bg-2: #14080c;
+      --card: #14090c;
+      --line: rgba(255,255,255,0.08);
+      --muted: #c9b3b6;
+      --text: #fff1f3;
+      --accent: #ff3b5c;
+      --accent-2: #ff6a7f;
       --accent-dim: rgba(255,59,92,.22);
       --glow: 0 0 24px rgba(255,59,92,.35), 0 0 64px rgba(255,59,92,.18);
-      --radius-lg: 18px; --radius: 14px; --radius-sm: 10px;
-      --shadow-lg: 0 24px 80px rgba(0,0,0,.75);
-      --shadow: 0 12px 40px rgba(0,0,0,.6);
-      --ring: 0 0 0 1.2px rgba(255,59,92,.42), 0 0 0 8px rgba(255,59,92,.08);
       --font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       --font-d: Orbitron, var(--font);
     }
-
     *{box-sizing:border-box}
-    html,body{height:100%}
-    html{scroll-behavior:smooth}
     body{
       margin:0;
+      font-family:var(--font);
       background:
         radial-gradient(1000px 400px at 8% 8%, rgba(255,59,92,.06), transparent 35%),
         radial-gradient(900px 500px at 92% 12%, rgba(255,59,92,.045), transparent 40%),
         linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 55%, #0c0608 100%);
       color:var(--text);
-      font-family:var(--font);
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
     }
-
-    /* Ambient halos + particles canvas */
-    #gc-particles{position:fixed;inset:0;z-index:0}
-    .halo{position:fixed;inset:auto;z-index:0;pointer-events:none;filter: blur(60px);opacity:.5;mix-blend-mode:screen}
-    .halo.a{width:360px;height:360px;right:6vw;top:14vh;background: radial-gradient(closest-side, var(--accent-dim), transparent 70%)}
-    .halo.b{width:420px;height:420px;left:6vw;bottom:10vh;background: radial-gradient(closest-side, rgba(255,59,92,.16), transparent 70%)}
-
-    /* Header / Nav */
-    header.nav{position:sticky;top:0;z-index:30;background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.2));backdrop-filter: blur(8px);border-bottom:1px solid var(--line)}
-    .nav-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
-    .badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-family:var(--font-d);letter-spacing:.6px;background:linear-gradient(135deg,#2a0b12,#1a070c);border:1px solid rgba(255,255,255,0.06);box-shadow:inset 0 -6px 20px rgba(0,0,0,.35), var(--glow);color:var(--accent)}
-    .brand span{font-weight:800;font-family:var(--font-d)}
-    .nav-links{display:flex;gap:16px;align-items:center}
-    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500}
-    .nav-links a:hover{color:var(--text)}
-    .nav-toggle{display:none;background:transparent;border:0;gap:5px;flex-direction:column}
-    .nav-toggle span{display:block;width:22px;height:2px;background:#e0c8cc;border-radius:2px}
-    .drawer{display:none}
-    @media (max-width:900px){
-      .nav-links{display:none}
-      .nav-toggle{display:flex}
-      .drawer{display:flex;flex-direction:column;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(0,0,0,0.5);backdrop-filter:blur(8px)}
-      .drawer a{color:var(--text);text-decoration:none}
+    header {
+      position:sticky; top:0;
+      background:rgba(0,0,0,0.5);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
     }
-
-    /* Buttons */
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:800;text-decoration:none;border:1px solid var(--line);transition:transform .08s ease, box-shadow .2s, border-color .2s}
-    .btn.solid{background:linear-gradient(90deg,var(--accent), var(--accent-2));color:#2a0008;border-color:transparent;box-shadow: var(--glow), var(--shadow)}
-    .btn.ghost{background:rgba(255,255,255,0.02);color:var(--text)}
-    .btn.sm{padding:9px 12px;border-radius:10px;font-weight:700}
-    .btn.xl{padding:14px 22px;border-radius:14px;font-size:16px}
-    .btn.wfull{width:100%}
-    .btn:hover{transform:translateY(-1px)}
-    .btn:active{transform:translateY(0) scale(.99)}
-    .btn:focus-visible{outline:none; box-shadow: var(--ring)}
-
-    /* Hero */
-    .hero{position:relative;z-index:1;padding:56px 16px 24px}
-    .hero-inner{max-width:1200px;margin:auto;display:grid;grid-template-columns: 1.2fr .9fr;gap:28px;align-items:center}
-    .kicker{display:inline-block;color:var(--accent);font-weight:800;font-size:12px;letter-spacing:1.2px;margin-bottom:8px}
-    .hero h1{font-size:44px;line-height:1.06;margin:0 0 12px 0}
-    .accent{color:var(--accent)}
-    .sub{color:var(--muted);max-width:60ch}
-    .cta-row{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    .hero-marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:24px}
-    .hero-marquee .track{display:flex;gap:24px;white-space:nowrap;animation:scroll 26s linear infinite;color:#e6cfd3;padding:10px 2px}
-    .hero-marquee span{opacity:.85}
-    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    @media (max-width:1000px){.hero-inner{grid-template-columns:1fr}.hero h1{font-size:36px}}
-
-    /* Login Card */
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border:1px solid var(--line);border-radius: var(--radius-lg);box-shadow: var(--shadow-lg);backdrop-filter: blur(8px);padding:22px}
-    .login-head{display:flex;gap:14px;align-items:center;margin-bottom:6px}
-    .logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--font-d);font-weight:800;color:var(--accent);background:linear-gradient(135deg,#3b0d16,#1a070c);border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 -8px 22px rgba(0,0,0,.38)}
-    .muted{color:var(--muted)}
-    .form{margin-top:12px}
-    .field{margin-bottom:14px}
-    label{display:block;font-size:13px;color:#f2dadd;margin:0 0 6px 2px}
-    input[type="text"], input[type="password"]{
-      width:100%;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);color:var(--text);outline:none;
-      transition:border-color .15s, box-shadow .15s;
+    .nav-inner{
+      max-width:1200px; margin:auto;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:14px 18px;
     }
-    input:focus{box-shadow: var(--ring);border-color: rgba(255,59,92,0.5)}
-    .row{display:flex;align-items:center;justify-content:space-between;margin:6px 0 14px 0}
-    .switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
-    .switch input{display:none}
-    .switch .slider{position:relative;width:40px;height:22px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid var(--line);display:inline-block;transition:background .2s,border-color .2s}
-    .switch .slider::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#ffe3e8;box-shadow:0 2px 10px rgba(0,0,0,.35);transition:transform .2s}
-    .switch input:checked + .slider{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-color:transparent;box-shadow: var(--glow)}
-    .switch input:checked + .slider::after{transform:translateX(18px)}
-    .switch-label{color:#efcbd1;font-size:13px}
-
-    .sep{display:flex;align-items:center;gap:12px;color:#e6cfd3;margin:14px 0}
-    .sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--line)}
-    .status{margin-top:12px;font-size:13px;color:#ffd7c7}
-    .foot{margin-top:10px;color:#e6cfd3}
-
-    /* Feature grid */
-    .section{padding:48px 16px}
-    .section-head{max-width:1200px;margin:0 auto 18px auto}
-    .section-head h3{margin:0 0 6px 0;font-size:22px}
-    .grid{max-width:1200px;margin:auto;display:grid;gap:16px}
-    .features{grid-template-columns:repeat(3,1fr)}
-    .card-lite{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.008));border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);backdrop-filter: blur(10px)}
-    .card-lite h4{margin:8px 0 4px 0}
-    .card-lite p{color:#e8d5d8}
-    @media (max-width:900px){.features{grid-template-columns:1fr}}
-
-    /* Footer */
-    footer{border-top:1px solid var(--line);background:rgba(0,0,0,0.45);backdrop-filter:blur(8px)}
-    .foot-inner{max-width:1200px;margin:auto;padding:22px 16px;display:grid;gap:10px;align-items:center;justify-items:center}
-    .brand-row{display:flex;align-items:center;gap:10px}
-
-    /* Card hover glow */
-    .card, .card-lite{position:relative;overflow:hidden}
-    .card::after, .card-lite::after{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background: radial-gradient(600px 120px at var(--mx, 0px) var(--my, 0px), rgba(255,59,92,.08), transparent 45%);
-      opacity:0; transition:opacity .2s;
+    .brand{
+      display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
+      font-family:var(--font-d); font-weight:800;
     }
-    .card:hover::after, .card-lite:hover::after{opacity:1}
-
-    /* Mobile tweaks */
-    @media (max-width:420px){
-      .hero .cta-row .btn{width:100%}
+    .badge{
+      width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+      background:linear-gradient(135deg,#2a0b12,#1a070c);
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:inset 0 -6px 20px rgba(0,0,0,.35), var(--glow);
+      color:var(--accent);
     }
+    .hero{
+      display:grid; place-items:center; min-height:100vh;
+      padding:2rem;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 12px 40px rgba(0,0,0,.6);
+      backdrop-filter:blur(8px);
+      padding:32px;
+      max-width:400px; width:100%;
+      text-align:center;
+    }
+    .logo{
+      font-family:var(--font-d); font-weight:800; color:var(--accent);
+      font-size:32px; margin-bottom:8px;
+    }
+    h1{margin:0 0 16px;font-size:24px;}
+    label{display:block;text-align:left;font-size:14px;margin:10px 0 4px;color:var(--muted);}
+    input{
+      width:100%;padding:12px 14px;border-radius:10px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);color:var(--text);
+      font-size:15px;outline:none;
+      transition:border-color .15s,box-shadow .15s;
+    }
+    input:focus{border-color:rgba(255,59,92,0.45);box-shadow:0 0 0 3px rgba(255,59,92,0.2);}
+    .btn{
+      width:100%;margin-top:18px;
+      padding:12px 16px;border:none;border-radius:12px;
+      font-weight:800;font-size:16px;cursor:pointer;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#2a0008;box-shadow:var(--glow);
+      transition:transform .1s ease;
+    }
+    .btn:hover{transform:translateY(-1px);}
+    .btn:active{transform:translateY(0) scale(.98);}
+    .status{margin-top:10px;font-size:13px;color:#ffd7c7;}
   </style>
 </head>
 <body>
-  <!-- Background -->
-  <canvas id="gc-particles" aria-hidden="true"></canvas>
-  <div class="halo a" aria-hidden="true"></div>
-  <div class="halo b" aria-hidden="true"></div>
-
-  <!-- Nav -->
-  <header class="nav">
+  <header>
     <div class="nav-inner">
-      <a class="brand" href="#">
-        <span class="badge">GC</span><span>GreenCut</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#signin" class="btn sm solid">Link Account</a>
-      </nav>
-      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    </div>
-    <div class="drawer" id="drawer">
-      <a href="#features">Features</a>
-      <a href="#signin" class="btn sm solid">Link Account</a>
+      <a href="#" class="brand"><div class="badge">GC</div>GreenCut</a>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="hero-inner">
-      <div>
-        <div class="kicker">HIGH-PERFORMANCE ACCESS</div>
-        <h1>Link your <span class="accent">GreenCut</span> account</h1>
-        <p class="sub">Fast, elegant, and secure. Built for creators who move quickly.</p>
-        <div class="cta-row">
-          <a href="#signin" class="btn xl solid">Link Account</a>
-          <a href="#features" class="btn xl ghost">Explore</a>
-        </div>
-        <div class="hero-marquee" aria-hidden="true">
-          <div class="track">
-            <span>Edge-Optimized</span>
-            <span>99.99% Uptime</span>
-            <span>Privacy-First</span>
-            <span>Two-Factor Ready</span>
-            <span>Rapid Linking</span>
-          </div>
-        </div>
-      </div>
+  <main class="hero">
+    <section class="card">
+      <div class="logo">GC</div>
+      <h1>Link your GreenCut account</h1>
 
-      <!-- Login / Simulation Card -->
-      <aside class="card" id="signin" aria-label="Link your GreenCut account">
-        <div class="login-head">
-          <div class="logo">GC</div>
-          <div>
-            <h2>Link your GreenCut account</h2>
-            <p class="muted">Simulation only — no data is sent.</p>
-          </div>
-        </div>
+      <form id="login-form" novalidate>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="you@example.com" required />
 
-        <form class="form" id="login-form" novalidate>
-          <div class="field">
-            <label for="username">Username (or email)</label>
-            <input id="username" name="username" type="text" autocomplete="username" placeholder="you@example.com" required />
-          </div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" required minlength="6" />
 
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="6" />
-          </div>
-
-          <div class="row">
-            <label class="switch">
-              <input type="checkbox" id="remember">
-              <span class="slider"></span>
-              <span class="switch-label">Remember me</span>
-            </label>
-            <a class="btn ghost" id="clear">Clear</a>
-          </div>
-
-          <button type="submit" class="btn solid wfull">Simulate Submit</button>
-          <div class="sep"><span>payload preview</span></div>
-          <pre id="preview" style="background:rgba(255,255,255,0.02);border:1px solid var(--line);padding:12px;border-radius:12px;max-height:180px;overflow:auto;white-space:pre-wrap"></pre>
-          <div class="status" id="status" role="status" aria-live="polite"></div>
-          <p class="foot">This page is for **learning**: it never sends network requests.</p>
-        </form>
-      </aside>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="section" id="features">
-    <div class="section-head">
-      <h3>Why GreenCut</h3>
-      <p class="muted">Designed for speed, security, and scale — without the headache.</p>
-    </div>
-    <div class="grid features">
-      <article class="card-lite"><h4>Edge Acceleration</h4><p>Perceived instant interactions with smart routing.</p></article>
-      <article class="card-lite"><h4>Defense-in-Depth</h4><p>Hardened headers, sensible defaults, rate-limits.</p></article>
-      <article class="card-lite"><h4>Clean APIs</h4><p>Modular building blocks that don’t fight you.</p></article>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="foot-inner">
-      <div class="brand-row"><span class="badge">GC</span><span>GreenCut</span></div>
-      <div class="muted">© <span id="year"></span> GreenCut • Red theme demo</div>
-    </div>
-  </footer>
+        <button type="submit" class="btn">Link Account</button>
+        <div class="status" id="status"></div>
+      </form>
+    </section>
+  </main>
 
   <script>
-    // ===== Year + mobile drawer =====
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const drawer = document.getElementById('drawer');
-    document.querySelector('.nav-toggle').addEventListener('click', ()=> drawer.classList.toggle('open'));
-
-    // ===== Hover glow tracking on cards =====
-    document.querySelectorAll('.card, .card-lite').forEach(el=>{
-      el.addEventListener('pointermove', (e)=>{
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      });
-    });
-
-    // ===== Particles (lightweight) =====
-    (function particles(){
-      const canvas = document.getElementById('gc-particles');
-      const ctx = canvas.getContext('2d', { alpha:true });
-      let w,h,dpr,nodes=[];
-      const TAU = Math.PI*2;
-      function resize(){
-        dpr = Math.max(1, window.devicePixelRatio || 1);
-        w = canvas.width = innerWidth * dpr;
-        h = canvas.height = innerHeight * dpr;
-        canvas.style.width = innerWidth+'px';
-        canvas.style.height = innerHeight+'px';
-      }
-      function makeNodes(count){
-        nodes = Array.from({length:count}, ()=>({
-          x: Math.random()*w, y: Math.random()*h,
-          vx:(Math.random()-.5)*.18*dpr, vy:(Math.random()-.5)*.18*dpr,
-          r:(1+Math.random()*2)*dpr, a:.25+Math.random()*.55
-        }));
-      }
-      function step(){
-        ctx.clearRect(0,0,w,h);
-        for(let i=0;i<nodes.length;i++){
-          const a=nodes[i];
-          for(let j=i+1;j<nodes.length;j++){
-            const b=nodes[j];
-            const dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy);
-            if (d < 120*dpr){
-              const alpha=(1 - d/(120*dpr))*.35;
-              ctx.strokeStyle=`rgba(255,59,92,${alpha})`;
-              ctx.lineWidth=.6*dpr;
-              ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
-            }
-          }
-        }
-        nodes.forEach(n=>{
-          n.x+=n.vx; n.y+=n.vy;
-          if (n.x<0||n.x>w) n.vx*=-1;
-          if (n.y<0||n.y>h) n.vy*=-1;
-          ctx.fillStyle=`rgba(255,59,92,${n.a})`;
-          ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,TAU); ctx.fill();
-        });
-        requestAnimationFrame(step);
-      }
-      addEventListener('resize', ()=>{
-        resize();
-        makeNodes(Math.max(60, Math.floor((innerWidth*innerHeight)/25000)));
-      });
-      resize();
-      makeNodes(Math.max(60, Math.floor((innerWidth*innerHeight)/25000)));
-      step();
-    })();
-
-    // ===== Simulation form (NO network calls) =====
     const form = document.getElementById('login-form');
-    const preview = document.getElementById('preview');
     const status = document.getElementById('status');
-    document.getElementById('clear').addEventListener('click', (e)=>{
-      e.preventDefault();
-      form.reset(); preview.textContent = ''; status.textContent = '';
-    });
-
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value; // kept local for simulation
-      if (!username){ status.textContent = 'Please enter your username.'; return; }
-      if (!password || password.length < 6){ status.textContent = 'Password must be at least 6 characters.'; return; }
-      const simulatedPayload = {
-        event: 'link_attempt',
-        username,
-        password_length: password.length,   // show only length, never the secret
-        remember: document.getElementById('remember').checked,
-        ts: new Date().toISOString(),
-        note: 'SIMULATION ONLY — no data is transmitted.'
-      };
-      // Render what *would* be sent (to study/educate), but do not transmit.
-      preview.textContent = JSON.stringify(simulatedPayload, null, 2);
-      status.textContent = 'Simulated payload generated (no network request performed).';
-      // Intentionally no fetch()/sendBeacon() here.
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value;
+      if(!u){status.textContent='Please enter a username.';return;}
+      if(!p||p.length<6){status.textContent='Password must be at least 6 characters.';return;}
+      status.textContent='Ready to link (no data sent).';
     });
-
-    // Respect reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.hero-marquee .track').forEach(t => t.style.animation = 'none');
-    }
   </script>
 </body>
 </html>
